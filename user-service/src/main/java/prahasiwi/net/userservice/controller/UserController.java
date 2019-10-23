@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class UserController {
 
-    @RequestMapping(path = "greetings", method = RequestMethod.GET)
+    @RequestMapping(path = {"greetings", "hello"}, method = RequestMethod.GET)
     public String greetings(){
         return "Hello World";
     }
