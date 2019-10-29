@@ -14,6 +14,18 @@ import prahasiwi.net.userservice.repository.UserRepository;
 import java.nio.file.attribute.UserPrincipalNotFoundException;
 import java.util.Optional;
 
+/*
+    The most fundamental change is the fact that Spring HATEOAS doesn’t create resources. That’s what Spring MVC/Spring
+    WebFlux does. We create vendor neutral representations of hypermedia. So we renamed those core types:
+
+    LINK- https://spring.io/blog/2019/03/05/spring-hateoas-1-0-m1-released#overhaul
+
+    ResourceSupport is now RepresentationModel
+    Resource is now EntityModel
+    Resources is now CollectionModel
+    PagedResources is now PagedModel
+*/
+
 @RestController
 @RequestMapping("v2")
 public class HateoasController {
