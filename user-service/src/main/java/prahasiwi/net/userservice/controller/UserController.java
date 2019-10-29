@@ -26,7 +26,7 @@ public class UserController {
     public ResponseEntity<Void> addUser(@RequestBody User user){
         User createdUser = userRepository.save(user);
         HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.add("id", createdUser.getId().toString());
+        httpHeaders.add("id", createdUser.getUserId().toString());
         return new ResponseEntity<>(httpHeaders, HttpStatus.CREATED);
     }
 
