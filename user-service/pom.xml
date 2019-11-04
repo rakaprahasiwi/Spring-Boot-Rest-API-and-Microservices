@@ -53,11 +53,7 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
-		<dependency>
-			<groupId>org.org.eclipse.jetty.websocket</groupId>
-			<artifactId>websocket-parent</artifactId>
-			<version>9.2.1.v20140609</version>
-		</dependency>
+
 	</dependencies>
 
 	<build>

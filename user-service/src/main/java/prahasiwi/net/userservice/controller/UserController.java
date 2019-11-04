@@ -5,6 +5,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import prahasiwi.net.userservice.exception.UserNotFoundException;
 import prahasiwi.net.userservice.model.User;
 import prahasiwi.net.userservice.repository.UserRepository;
 
@@ -24,10 +25,14 @@ public class UserController {
     //Add User
     @RequestMapping(path = "user", method = RequestMethod.POST)
     public ResponseEntity<Void> addUser(@RequestBody User user){
-        User createdUser = userRepository.save(user);
-        HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.add("id", createdUser.getUserId().toString());
-        return new ResponseEntity<>(httpHeaders, HttpStatus.CREATED);
+        try{
+            User createdUser = userRepository.save(user);
+            HttpHeaders httpHeaders = new HttpHeaders();
+            httpHeaders.add("id", createdUser.getUserId().toString());
+            return new ResponseEntity<>(httpHeaders, HttpStatus.CREATED);
+        }catch(Exception e){
+            return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
+        }
     }
 
     //Get All User
@@ -38,22 +43,34 @@ public class UserController {
 
     //Get SIngle User
     @RequestMapping(path = "user/{id}", method = RequestMethod.GET)
-    public ResponseEntity<User> getSingleUser(@PathVariable("id") String id){
-        Optional<User> user = userRepository.findById(Long.valueOf(id));
-        return new ResponseEntity<User>(user.get(), HttpStatus.OK);
+    public ResponseEntity<User> getSingleUser(@PathVariable("id") String id) throws UserNotFoundException {
+        try {
+            Optional<User> user = userRepository.findById(Long.valueOf(id));
+            return new ResponseEntity<User>(user.get(), HttpStatus.OK);
+        }catch (Exception e){
+            throw new UserNotFoundException("User not found for id: "+id);
+        }
     }
 
     //Update User
     @RequestMapping(path = "user", method = RequestMethod.PUT)
     public ResponseEntity<User> updateUser(@RequestBody User user){
-        User updatedUser = userRepository.save(user);
-        return new ResponseEntity<User>(updatedUser, HttpStatus.OK);
+        try{
+            User updatedUser = userRepository.save(user);
+            return new ResponseEntity<User>(updatedUser, HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
+        }
     }
 
     //Delete User
     @RequestMapping(path = "user/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<User> deletedUser(@PathVariable("id") String id){
-        userRepository.deleteById(Long.valueOf(id));
-        return new ResponseEntity<>(HttpStatus.OK);
+        try {
+            userRepository.deleteById(Long.valueOf(id));
+            return new ResponseEntity<>(HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
+        }
     }
 }
