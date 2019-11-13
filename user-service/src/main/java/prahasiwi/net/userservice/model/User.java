@@ -20,7 +20,7 @@ public class User extends RepresentationModel implements Serializable {
     private String lastName;
     private String email;
 
-    private User(){
+    public User(){
         super();
     }
 
